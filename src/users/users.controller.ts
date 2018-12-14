@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { List } from 'interfaces/list';
 
 import { Credentials } from '../interfaces/credentials';
 import { QueryRequest } from '../interfaces/queries';
@@ -12,7 +13,7 @@ export class UsersController {
   ) { }
 
   @Get()
-  public async getList(@Query() query: QueryRequest) {
+  public async getList(@Query() query: QueryRequest): Promise<List<User>> {
     const data = await this.usersService.getMany(query);
     this.removePasswordsFromUsers(data.items);
     return data;
@@ -27,11 +28,13 @@ export class UsersController {
 
   @Post()
   public async post(@Body() user: Readonly<User>): Promise<User> {
-    return await this.usersService.create(user);
+    const data = await this.usersService.create(user);
+    this.removePasswordFromUser(data);
+    return data;
   }
 
-  @Post()
-  public async register(@Body() credentials: Readonly<Credentials>): Promise<boolean> {
+  @Post('/login')
+  public async login(@Body() credentials: Readonly<Credentials>): Promise<boolean> {
     return await this.usersService.logIn(credentials);
   }
 
@@ -40,12 +43,16 @@ export class UsersController {
     @Param('id') id: string,
     @Body() user: Readonly<User>,
   ): Promise<User> {
-    return await this.usersService.update(id, user);
+    const data = await this.usersService.update(id, user);
+    this.removePasswordFromUser(data);
+    return data;
   }
 
   @Delete(':id')
   public async remove(@Param('id') id: string): Promise<User> {
-    return await this.usersService.remove(id);
+    const data = await this.usersService.remove(id);
+    this.removePasswordFromUser(data);
+    return data;
   }
 
   private removePasswordsFromUsers(users: User[]): void {
