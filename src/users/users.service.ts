@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { List } from 'interfaces/list';
-import { QueryRequest } from 'interfaces/queries';
 import { Model } from 'mongoose';
 
+import { Credentials } from '../interfaces/credentials';
+import { List } from '../interfaces/list';
+import { QueryRequest } from '../interfaces/queries';
 import { create } from '../utils/create';
+import { deleteById } from '../utils/delete';
 import { getById } from '../utils/getById';
 import { getList } from '../utils/getList';
 import { updateById } from '../utils/update';
 import { User } from './users.interface';
-import { deleteById } from 'utils/delete';
 
 @Injectable()
 export class UsersService {
@@ -35,5 +36,10 @@ export class UsersService {
 
   public async remove(id: string): Promise<User> {
     return await deleteById(id, this.model);
+  }
+
+  public async logIn(credentials: Readonly<Credentials>): Promise<boolean> {
+    const model = await this.model.findOne({ email: credentials.email }).lean();
+    return model.password === credentials.password;
   }
 }

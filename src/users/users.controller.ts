@@ -1,8 +1,9 @@
-import { Body, Controller, Post, Get, Query, Param, Put, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
 
+import { Credentials } from '../interfaces/credentials';
+import { QueryRequest } from '../interfaces/queries';
 import { User } from './users.interface';
 import { UsersService } from './users.service';
-import { QueryRequest } from 'interfaces/queries';
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +28,11 @@ export class UsersController {
   @Post()
   public async post(@Body() user: Readonly<User>): Promise<User> {
     return await this.usersService.create(user);
+  }
+
+  @Post()
+  public async register(@Body() credentials: Readonly<Credentials>): Promise<boolean> {
+    return await this.usersService.logIn(credentials);
   }
 
   @Put(':id')
