@@ -7,4 +7,5 @@ export const UserSchema = new mongoose.Schema({
   email: String,
   isEmailActivated: Boolean,
   registerDate: Date,
+  role: String,
 });

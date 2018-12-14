@@ -7,6 +7,6 @@ export interface User extends Document {
   email: string;
   isEmailEnabled: boolean;
   registerDate: Date;
-  // TODO: role
+  role: string;
   // TODO: curses
 }
