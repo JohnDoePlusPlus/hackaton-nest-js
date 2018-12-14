@@ -1,6 +1,9 @@
-export interface Curs<T> {
+import { Document } from 'mongoose';
+
+export interface Curs<T> extends Document {
   name: string;
   author: T;
   domain: string;
+  speciality: string;
   credits: number;
 }
