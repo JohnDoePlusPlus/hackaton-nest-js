@@ -5,5 +5,8 @@ export interface User extends Document {
   lastName: string;
   password: string;
   email: string;
-  isEmailActivated: boolean;
+  isEmailEnabled: boolean;
+  registerDate: Date;
+  // TODO: role
+  // TODO: curses
 }

@@ -54,5 +54,6 @@ export class UsersController {
 
   private removePasswordFromUser(user: User): void {
     delete user.password;
+    delete user.isEmailEnabled;
   }
 }
