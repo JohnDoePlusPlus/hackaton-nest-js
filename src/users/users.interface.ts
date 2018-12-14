@@ -6,7 +6,7 @@ export interface User extends Document {
   password: string;
   email: string;
   isEmailEnabled: boolean;
-  registerDate: Date;
+  registerDate: string;
   role: string;
-  // TODO: curses
+  courses: string[];
 }

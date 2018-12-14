@@ -38,6 +38,11 @@ export class UsersService {
     return await deleteById(id, this.model);
   }
 
+  public async addCourse(id: string, course: string): Promise<User> {
+    const item = await this.getOne(id);
+    return await this.update(id, { ...item, courses: [...item.courses, course] } as User);
+  }
+
   public async logIn(credentials: Readonly<Credentials>): Promise<boolean> {
     const model = await this.model.findOne({ email: credentials.email }).lean();
     return model.password === credentials.password;

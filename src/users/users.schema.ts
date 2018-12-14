@@ -6,6 +6,7 @@ export const UserSchema = new mongoose.Schema({
   password: String,
   email: String,
   isEmailActivated: Boolean,
-  registerDate: Date,
+  registerDate: String,
   role: String,
+  courses: Array,
 });

@@ -55,6 +55,16 @@ export class UsersController {
     return data;
   }
 
+  @Put('/addCourse/:id')
+  public async addCourse(
+    @Param('id') id: string,
+    @Body() course: string,
+  ): Promise<User> {
+    const data = await this.usersService.addCourse(id, course);
+    this.removePasswordFromUser(data);
+    return data;
+  }
+
   private removePasswordsFromUsers(users: User[]): void {
     users.forEach(user => this.removePasswordFromUser(user));
   }
