@@ -12,12 +12,16 @@ export class UsersController {
 
   @Get()
   public async getList(@Query() query: QueryRequest) {
-    return await this.usersService.getMany(query);
+    const data = await this.usersService.getMany(query);
+    this.removePasswordsFromUsers(data.items);
+    return data;
   }
 
   @Get(':id')
   public async getById(@Param('id') id: string): Promise<User> {
-    return await this.usersService.getOne(id);
+    const data = await this.usersService.getOne(id);
+    this.removePasswordFromUser(data);
+    return data;
   }
 
   @Post()
@@ -36,5 +40,13 @@ export class UsersController {
   @Delete(':id')
   public async remove(@Param('id') id: string): Promise<User> {
     return await this.usersService.remove(id);
+  }
+
+  private removePasswordsFromUsers(users: User[]): void {
+    users.forEach(user => this.removePasswordFromUser(user));
+  }
+
+  private removePasswordFromUser(user: User): void {
+    delete user.password;
   }
 }
