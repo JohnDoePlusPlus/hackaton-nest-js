@@ -5,6 +5,7 @@ import { Credentials } from '../interfaces/credentials';
 import { QueryRequest } from '../interfaces/queries';
 import { User } from './users.interface';
 import { UsersService } from './users.service';
+import { Filter } from 'interfaces/filter';
 
 @Controller('users')
 export class UsersController {
@@ -63,6 +64,11 @@ export class UsersController {
     const data = await this.usersService.addCourse(id, course);
     this.removePasswordFromUser(data);
     return data;
+  }
+
+  @Put('/search')
+  public async filter(@Body() filters: Filter<User>): Promise<User[]> {
+    return this.usersService.filter(filters);
   }
 
   private removePasswordsFromUsers(users: User[]): void {

@@ -11,11 +11,15 @@ import { getById } from '../utils/getById';
 import { getList } from '../utils/getList';
 import { updateById } from '../utils/update';
 import { User } from './users.interface';
+import { getListWithFilter } from 'utils/filter';
+import { Filter } from 'interfaces/filter';
+import { Curs } from 'curses/curses.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel('Users') private readonly model: Model<User>,
+    @InjectModel('Curses') private readonly cursModel: Model<Curs<string>>,
   ) { }
 
   public async create(user: Readonly<User>): Promise<User> {
@@ -46,5 +50,9 @@ export class UsersService {
   public async logIn(credentials: Readonly<Credentials>): Promise<boolean> {
     const model = await this.model.findOne({ email: credentials.email }).lean();
     return model.password === credentials.password;
+  }
+
+  public async filter(filters: Filter<User>): Promise<User[]> {
+    return await getListWithFilter(filters, this.model, this.cursModel);
   }
 }
