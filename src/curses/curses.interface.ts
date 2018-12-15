@@ -6,4 +6,5 @@ export interface Curs<T> extends Document {
   domain: string;
   speciality: string;
   credits: number;
+  description: string;
 }

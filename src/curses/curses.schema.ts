@@ -6,4 +6,5 @@ export const CursesSchema = new mongoose.Schema({
   domain: String,
   speciality: String,
   credits: Number,
+  description: String,
 });
