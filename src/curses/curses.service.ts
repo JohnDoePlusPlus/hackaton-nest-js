@@ -35,6 +35,9 @@ export class CursesService {
   }
 
   public async create(curs: Readonly<Curs<string | User>>): Promise<Curs<User>> {
+    if (curs.image) {
+
+    }
     const result = await create(await this.transformToDB(curs), this.model);
     return await this.transformToUser(result);
   }
@@ -52,8 +55,7 @@ export class CursesService {
   public async filter(filters: Filter<Curs<string>>): Promise<Curs<User>[]> {
     const result = await getListWithFilter(filters, this.model);
     const promises = result.map(curs => this.transformToUser(curs));
-    const items = await Promise.all(promises);
-    return items;
+    return await Promise.all(promises);
   }
 
   public async getPopular(limit: number): Promise<Curs<User>[]> {

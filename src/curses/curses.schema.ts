@@ -8,4 +8,5 @@ export const CursesSchema = new mongoose.Schema({
   credits: Number,
   description: String,
   clicksCount: Number,
+  image: String,
 });

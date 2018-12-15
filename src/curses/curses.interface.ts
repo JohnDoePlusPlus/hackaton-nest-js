@@ -8,4 +8,5 @@ export interface Curs<T> extends Document {
   credits: number;
   description: string;
   clicksCount: number;
+  image: string;
 }
