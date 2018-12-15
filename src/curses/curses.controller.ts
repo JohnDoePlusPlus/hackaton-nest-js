@@ -5,6 +5,7 @@ import { User } from 'users/users.interface';
 
 import { Curs } from './curses.interface';
 import { CursesService } from './curses.service';
+import { Filter } from 'interfaces/filter';
 
 @Controller('curses')
 export class CursesController {
@@ -38,5 +39,10 @@ export class CursesController {
   @Delete(':id')
   public async delete(@Param('id') id: string): Promise<Curs<User>> {
     return await this.cursesService.delete(id);
+  }
+
+  @Put('/search')
+  public async filter(@Body() filters: Filter<Curs<string>>): Promise<Curs<User>[]> {
+    return await this.cursesService.filter(filters);
   }
 }

@@ -1,15 +1,17 @@
-import { Model } from 'mongoose';
-import { User } from 'users/users.interface';
-
-import { Curs } from './curses.interface';
 import { InjectModel } from '@nestjs/mongoose';
-import { getById } from 'utils/getById';
-import { create } from 'utils/create';
-import { updateById } from 'utils/update';
-import { deleteById } from 'utils/delete';
+import { Filter } from 'interfaces/filter';
 import { List } from 'interfaces/list';
 import { QueryRequest } from 'interfaces/queries';
+import { Model } from 'mongoose';
+import { User } from 'users/users.interface';
+import { create } from 'utils/create';
+import { deleteById } from 'utils/delete';
+import { getListWithFilter } from 'utils/filter';
+import { getById } from 'utils/getById';
 import { getList } from 'utils/getList';
+import { updateById } from 'utils/update';
+
+import { Curs } from './curses.interface';
 
 export class CursesService {
   constructor(
@@ -45,6 +47,13 @@ export class CursesService {
   public async delete(id: string): Promise<Curs<User>> {
     const result = await deleteById(id, this.model);
     return await this.transformToUser(result);
+  }
+
+  public async filter(filters: Filter<Curs<string>>): Promise<Curs<User>[]> {
+    const result = await getListWithFilter(filters, this.model);
+    const promises = result.map(curs => this.transformToUser(curs));
+    const items = await Promise.all(promises);
+    return items;
   }
 
   private async transformToUser(curs: Curs<string | User>): Promise<Curs<User>> {
