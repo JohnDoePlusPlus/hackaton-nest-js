@@ -68,7 +68,7 @@ export class UsersController {
 
   @Put('/search')
   public async filter(@Body() filters: Filter<User>): Promise<User[]> {
-    return this.usersService.filter(filters);
+    return await this.usersService.filter(filters);
   }
 
   private removePasswordsFromUsers(users: User[]): void {
