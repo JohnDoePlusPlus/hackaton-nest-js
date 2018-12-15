@@ -5,6 +5,8 @@ import { Credentials } from '../interfaces/credentials';
 import { QueryRequest } from '../interfaces/queries';
 import { RolesService } from './roles.service';
 import { Role } from './roles.interface';
+import { Filter } from 'interfaces/filter';
+import { User } from 'users/users.interface';
 
 @Controller('roles')
 export class RolesController {
@@ -38,5 +40,10 @@ export class RolesController {
   @Delete(':id')
   public async delete(@Param('id') id: string): Promise<Role> {
     return await this.rolesService.delete(id);
+  }
+
+  @Put('/search')
+  public async filter(@Body() filters: Filter<Role>): Promise<Role[]> {
+    return await this.rolesService.filter(filters);
   }
 }

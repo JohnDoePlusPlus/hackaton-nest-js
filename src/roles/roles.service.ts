@@ -10,6 +10,8 @@ import { getById } from '../utils/getById';
 import { getList } from '../utils/getList';
 import { updateById } from '../utils/update';
 import { Role } from './roles.interface';
+import { Filter } from 'interfaces/filter';
+import { getListWithFilter } from 'utils/filter';
 
 @Injectable()
 export class RolesService {
@@ -35,5 +37,9 @@ export class RolesService {
 
   public async delete(id: string): Promise<Role> {
     return await deleteById(id, this.model);
+  }
+
+  public async filter(filters: Filter<Role>): Promise<Role[]> {
+    return await getListWithFilter(filters, this.model);
   }
 }
