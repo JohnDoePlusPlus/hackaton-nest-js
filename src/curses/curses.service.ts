@@ -56,6 +56,14 @@ export class CursesService {
     return items;
   }
 
+  public async getPopular(limit: number): Promise<Curs<User>[]> {
+    return await this.model
+      .find()
+      .sort({ $clicksCount: 1 })
+      .limit(limit)
+      .lean();
+  }
+
   private async transformToUser(curs: Curs<string | User>): Promise<Curs<User>> {
     if (typeof curs.author === typeof {}) {
       return curs as Curs<User>;

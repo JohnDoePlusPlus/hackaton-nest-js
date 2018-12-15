@@ -7,4 +7,5 @@ export const CursesSchema = new mongoose.Schema({
   speciality: String,
   credits: Number,
   description: String,
+  clicksCount: Number,
 });

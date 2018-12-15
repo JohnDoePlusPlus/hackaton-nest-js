@@ -45,4 +45,9 @@ export class CursesController {
   public async filter(@Body() filters: Filter<Curs<string>>): Promise<Curs<User>[]> {
     return await this.cursesService.filter(filters);
   }
+
+  @Get('/popular')
+  public async getPopular(@Query() { limit }: { limit: number; }) {
+    return await this.cursesService.getPopular(limit);
+  }
 }
