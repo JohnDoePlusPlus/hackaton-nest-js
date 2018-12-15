@@ -47,7 +47,7 @@ export class CursesController {
   }
 
   @Get('/popular')
-  public async getPopular(@Query() { limit }: { limit: number; }) {
+  public async getPopular(@Query() { limit }: { limit: number; }): Promise<Curs<User>[]> {
     return await this.cursesService.getPopular(limit);
   }
 }
